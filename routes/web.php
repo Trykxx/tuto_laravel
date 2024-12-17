@@ -7,9 +7,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/blog', function(Request $request){
-    return [
-        "name" => $request->get('name'),
-        "article" => "Article 1"
-    ];
+Route::prefix('/blog')->name('blog.')->group(function(){
+    Route::get('/', function () {
+        return [
+            "link" => \route('blog.show', ['slug' => 'article', 'id'=> 15])
+        ];
+    })->name('index');
+
+    Route::get('/{slug}-{id}', function (string $slug, string $id) {
+        return [
+            "slug" => $slug,
+            "id" => $id
+        ];
+    })->where([
+        "id" => '[0-9]+',
+        "slug" => '[a-z0-9\-]+'
+    ])->name('show');
 });
