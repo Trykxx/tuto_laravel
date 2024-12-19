@@ -9,24 +9,16 @@ Route::get('/', function () {
 });
 
 Route::prefix('/blog')->name('blog.')->group(function(){
-    Route::get('/', function () {
-
-        $post = new Post();
-
-        $post->title = "Mon second article";
-        $post->slug = "Mon-second-article";
-        $post->content = 'Mon contenu';
-
-        $post->save();
-
-        return $post;
-
-        return [
-            "link" => \route('blog.show', ['slug' => 'article', 'id'=> 15])
-        ];
+    Route::get('/', function (Post $post) {
+        return $post->paginate(25);
     })->name('index');
 
-    Route::get('/{slug}-{id}', function (string $slug, string $id) {
+    Route::get('/{slug}-{id}', function (string $slug, string $id, Post $post) {
+        $postFind = $post->findOrFail($id);
+
+        if ($postFind->slug == $slug) {
+            return to_route('blog.show', ['slug' => $postFind->slug, 'id'=> $postFind->id]);
+        }
         return [
             "slug" => $slug,
             "id" => $id
