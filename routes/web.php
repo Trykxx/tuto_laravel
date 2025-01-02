@@ -17,9 +17,8 @@ Route::prefix('/blog')->name('blog.')->controller(BlogController::class)->group(
         "slug" => '[a-zA-Z0-9\-]+'
     ])->name('show');
 
-    // Route::get('/{post:slug}', 'show')->where([
-    //     "post" => '[a-zA-Z0-9\-]+'
-    // ])->name('show');
+    Route::get('/new', 'create')->name('create');
+    Route::post('/new', 'store');
 });
 
 Route::get('/test', function () {

@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -32,4 +33,21 @@ class BlogController extends Controller
             'post' => $post
         ]);
     }
+
+    public function create()
+    {
+        return view('blog.create');
+    }
+
+    public function store(Request $request)
+    {
+        $post = Post::create([
+            'title' => $request->input('title'),
+            'content' => $request->input(),
+            'slug' => Str::slug($request->input('title'))
+        ]);
+        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id]);
+    }
+
+
 }
