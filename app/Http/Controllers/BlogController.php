@@ -15,14 +15,6 @@ class BlogController extends Controller
 {
     public function index(Post $post, BlogFilterRequest $request): View
     {
-
-        // $validator = Validator::make([
-        //     'title' => 'arererererererere'
-        // ],[
-        //     // 'title' => 'required|min:8'
-        //     'title' => ['required', 'min:8']
-        // ]);
-
         dd($request->validated());
 
         $posts = $post->paginate(1);
@@ -44,5 +36,10 @@ class BlogController extends Controller
         return view('blog.show', [
             'post' => $postFind
         ]);
+    }
+
+    function create()
+    {
+        
     }
 }
