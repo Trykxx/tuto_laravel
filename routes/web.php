@@ -16,6 +16,9 @@ Route::prefix('/blog')->name('blog.')->controller(BlogController::class)->group(
         "id" => '[0-9]+',
         "slug" => '[a-zA-Z0-9\-]+'
     ])->name('show');
+
+    Route::get('/new', 'create')->name('create');
+    Route::post('/new', 'store');
 });
 
 Route::get('/test', function () {
