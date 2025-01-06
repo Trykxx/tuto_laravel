@@ -1,7 +1,7 @@
 @extends('base')
 
 @section('title')
-    Creer un article
+    Modifier un article
 @endsection
 
 @section('content')

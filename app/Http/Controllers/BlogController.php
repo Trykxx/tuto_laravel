@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogFilterRequest;
+use App\Http\Requests\FormPostRequest;
 use App\Models\Post;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\RedirectResponse;
@@ -36,6 +37,31 @@ class BlogController extends Controller
 
     function create()
     {
-        
+        $post = new Post();
+        return view('blog.create',[
+            'post' => $post
+        ]);
     }
+
+    function store(FormPostRequest $request)
+    {
+        $post = Post::create($request->validated());
+
+        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success','Le post a été créé !');
+    }
+
+    function edit(Post $post)
+    {
+        return view('blog.edit',[
+            'post' => $post
+        ]);
+    }
+
+    function update(Post $post, FormPostRequest $request)
+    {
+        $post->update($request->validated());
+        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success','Le post a été modifié !');
+    }
+
+
 }

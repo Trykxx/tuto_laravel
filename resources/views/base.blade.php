@@ -31,16 +31,11 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a @class(['nav-link', 'active' => request()->route()->getName()]) aria-current="page" href="{{ route('blog.index')}}">Blog</a>
+                            <a @class(['nav-link', 'active' => request()->route()->getName()]) aria-current="page"
+                                href="{{ route('blog.index') }}">Blog</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                         </li>
                     </ul>
                 </div>
@@ -49,6 +44,11 @@
     </header>
 
     <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         @yield('content')
     </div>
 </body>
