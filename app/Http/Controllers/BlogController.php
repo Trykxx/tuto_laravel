@@ -18,11 +18,15 @@ class BlogController extends Controller
 {
     public function index(): View
     {
-        
-        // $post = Post::find(2);
-        // $post->category_id = 1;
-        // $post->save();
-        // dd($post->category->name);
+        $category = Category::find(1);
+        $post = Post::find(5);
+        $post->category()->associate($category);
+        $post->save();
+        // $category->posts()->where('id','>','3')->get();
+        // foreach ($posts as $post) {
+        //     $category = $post->category?->name;
+        // }
+
         return view('blog.index', [
             'posts' => Post::paginate(1)
         ]);
@@ -44,7 +48,7 @@ class BlogController extends Controller
     function create()
     {
         $post = new Post();
-        return view('blog.create',[
+        return view('blog.create', [
             'post' => $post
         ]);
     }
@@ -53,12 +57,12 @@ class BlogController extends Controller
     {
         $post = Post::create($request->validated());
 
-        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success','Le post a été créé !');
+        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Le post a été créé !');
     }
 
     function edit(Post $post)
     {
-        return view('blog.edit',[
+        return view('blog.edit', [
             'post' => $post
         ]);
     }
@@ -66,8 +70,6 @@ class BlogController extends Controller
     function update(Post $post, FormPostRequest $request)
     {
         $post->update($request->validated());
-        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success','Le post a été modifié !');
+        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Le post a été modifié !');
     }
-
-
 }
