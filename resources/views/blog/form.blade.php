@@ -23,20 +23,35 @@
         @enderror
     </div>
     <div class="form-group">
-        <label for="category">Contenu</label>
+        <label for="category">Catégorie</label>
         <select class="form-control" id='category' name="category_id">
+            <option value="">Sélectionnez une catégorie</option>
             @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                <option @selected(old('category_id', $post->category_id) == $category->id) value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
 
         </select>
-        @error('content')
+        @error('category_id')
+            {{ $message }}
+        @enderror
+    </div>
+    @php
+        $tagsIds = $post->tags()->pluck('id');
+    @endphp
+    <div class="form-group">
+        <label for="tag">Tags</label>
+        <select class="form-control" id='tag' name="tags[]" multiple>
+            @foreach ($tags as $tag)
+                <option @selected($tagsIds->contains($tag->id)) value="{{ $tag->id }}">{{ $tag->name }}</option>
+            @endforeach
+        </select>
+        @error('tags')
             {{ $message }}
         @enderror
     </div>
     <button class="btn btn-primary">
         @if ($post->id)
-            Mofifier
+            Modifier
         @else
             Creer
         @endif
