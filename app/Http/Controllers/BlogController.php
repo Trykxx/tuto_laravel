@@ -18,17 +18,8 @@ class BlogController extends Controller
 {
     public function index(): View
     {
-        $category = Category::find(1);
-        $post = Post::find(5);
-        $post->category()->associate($category);
-        $post->save();
-        // $category->posts()->where('id','>','3')->get();
-        // foreach ($posts as $post) {
-        //     $category = $post->category?->name;
-        // }
-
         return view('blog.index', [
-            'posts' => Post::paginate(1)
+            'posts' => Post::with('tags', 'category')->paginate(10)
         ]);
     }
 
@@ -63,7 +54,8 @@ class BlogController extends Controller
     function edit(Post $post)
     {
         return view('blog.edit', [
-            'post' => $post
+            'post' => $post,
+            'categories' => Category::select('id', 'name')->get()
         ]);
     }
 
