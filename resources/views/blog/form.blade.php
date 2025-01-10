@@ -26,6 +26,7 @@
         <label for="category">Catégorie</label>
         <select class="form-control" id='category' name="category_id">
             <option value="">Sélectionnez une catégorie</option>
+            @dump($categories)
             @foreach ($categories as $category)
                 <option @selected(old('category_id', $post->category_id) == $category->id) value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach

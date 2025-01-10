@@ -21,7 +21,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Navbar</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -38,6 +38,21 @@
                             <a class="nav-link" href="#">Features</a>
                         </li>
                     </ul>
+                    <div class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        @auth
+                            {{ Auth::user()->name }}
+                            <form action="{{ route('auth.logout') }}" method="post">
+                                @method('delete')
+                                @csrf
+                                <button class="nav-link">Se déconnecter</button>
+                            </form>
+                        @endauth
+                        @guest
+                        <div class="nav-item">
+                            <a class="nav-link" href="{{ route('auth.login') }}">Se connecter</a>
+                        </div>
+                        @endguest
+                    </div>
                 </div>
             </div>
         </nav>
