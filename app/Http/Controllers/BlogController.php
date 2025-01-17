@@ -72,7 +72,6 @@ class BlogController extends Controller
 
     function update(Post $post, FormPostRequest $request)
     {
-
         $post->update($this->extractData($post,$request));
         $post->tags()->sync($request->validated('tags'));
         return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Le post a été modifié !');
